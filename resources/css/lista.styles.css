@@ -1,0 +1,176 @@
+.Tabela {
+    position: static;
+    float: left;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    margin: 0px 0px 0px 0px;
+    padding: 5px;
+    background-color: #FFFFFF;
+}
+
+.Tabela .corpo {
+    position: static;
+    float: left;
+    width: 100%;
+    margin: 0px 0px 0px 0px;
+    padding: 5px 0px 5px 0px;
+}
+
+/*----------------------------------------------------------------------*/
+
+#myTable {
+    border-collapse: collapse;
+    border: 1px solid #cfcece;
+    width: 100%;
+}
+
+#myTable thead {
+    background-color: #f1f1f1;
+    color: rgb(7, 7, 7);
+    border-bottom: 1px solid #cfcece;
+}
+
+#myTable thead tr th {
+    padding: 0.5em 1em;
+    text-align: center;
+}
+
+#myTable tbody tr {
+    border-bottom: 1px solid #cfcece;
+}
+
+#myTable tbody tr:nth-of-type(2n) {
+    background-color: rgb(253, 252, 252);
+}
+
+#myTable tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+#myTable tbody tr td {
+    padding: 0.4em 1em;
+    text-align: left;
+    font-size: 0.9em;
+    line-height: 1.9;
+}
+
+#myTable tbody tr td.display_soma {
+    padding: 0.4em 1em;
+    text-align: right;
+}
+
+#myTable tbody tr td.name {
+    text-align: left;
+}
+
+#myTable tbody tr td.numeric {
+    text-align: left;
+}
+
+#myTable tbody tr td.box-actions {
+    text-align: right;
+}
+
+#myTable tbody tr td.box-actions a {
+    margin: 2px 5px;
+}
+
+#myTable tbody tr td ul.actions li {
+    list-style: none;
+    display: inline;
+    padding: 5px;
+    text-align: right;
+}
+
+#myTable tbody tr td ul.actions li a {
+    margin: 2px 0px;
+}
+
+#myTable tbody tr td.box-actions a {
+    cursor: pointer;
+}
+
+#myTable tbody tr td[data-label] {
+    text-align: center;
+}
+
+#myTable tbody tr td[data-label].name {
+    text-align: left;
+}
+
+#myTable tbody tr td[data-label].numeric {
+    text-align: left;
+}
+
+#myTavle input[type="radio"] {
+    position: relative;
+    float: left;
+    margin: auto;
+}
+
+@media screen and (max-width: 800px) {
+    #myTable {
+        width: 100%;
+        border: 0px;
+    }
+
+    #myTable thead {
+        display: none;
+    }
+
+    #myTable tbody tr {
+        box-shadow: 0 0 0.5em #666666;
+        border: none;
+        display: block;
+        margin: 10px;
+    }
+
+    #myTable tbody tr td {
+        padding: 0.4em 1em;
+        text-align: right;
+        display: block;
+        width: block;
+    }
+
+    #myTable tbody tr td[data-label] {
+        text-align: right;
+    }
+
+    #myTable tbody tr td[data-label="#"] {
+        display: none;
+    }
+
+    #myTable tbody tr td[data-label]:before {
+        content: attr(data-label);
+        float: left;
+        
+        font-weight: bold;
+    }
+
+    #myTable tbody tr td.box-actions {
+        padding: 5px 2px 2px 2px;
+        border-top: 1px solid #cfcece;
+        text-align: right;
+    }
+
+    #myTable tbody tr td.box-actions a {
+        margin: 2px 10px;
+    }
+
+    #myTable tbody tr td.name {
+        text-align: right;
+    }
+
+    #myTable tbody tr td[data-label].name {
+        text-align: right;
+    }
+
+    #myTable tbody tr td.numeric {
+        text-align: right;
+    }
+
+    #myTable tbody tr td[data-label].numeric {
+        text-align: right;
+    }
+}

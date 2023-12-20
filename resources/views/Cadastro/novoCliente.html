@@ -1,0 +1,148 @@
+<div id="FromData">
+    <div class="mt-3">Informações Pessoal</div>
+    <hr>
+
+    <div class="m-3 form-row">
+        <span class="form-group col-sm-6">Nome<br>
+            <input type="text" class="form-control form-control-sm" name="name" id="name" required>
+        </span>
+
+        <span class="form-group col-sm-6">CPF<br>
+            <input type="text" class="form-control form-control-sm" name="cpf" id="cpf" required>
+        </span>
+
+        <span class="form-group col-sm-6">Telofone<br>
+            <input type="text" class="form-control form-control-sm" name="phone" id="phone" required>
+        </span>
+
+        <span class="form-group col-sm-6">Celular Whats<br>
+            <input type="text" class="form-control form-control-sm" name="mobilePhone" id="mobilePhone" required>
+        </span>
+
+        <span class="form-group col-sm-6">E-mail</br>
+            <input type="text" class="form-control form-control-sm" name="email" id="email" required>
+        </span>
+    </div>
+
+    <div class="mt-3">Endereço</div>
+    <hr>
+
+    <div class="m-3 form-row">
+        <span class="form-group col-sm-6">CEP<br>
+            <input type="text" class="form-control form-control-sm" name="postalCode" id="postalCode" required>
+        </span>
+
+        <span class="form-group col-sm-6"><br>
+            <button class="btn btn-primary btn-sm" onclick='buscarCEP();'>Buscar CEP</button>
+        </span>
+    </div>
+
+    <div class="m-3 form-row">
+        <span class="form-group col-sm-6">Logradouro<br>
+            <input type="text" class="form-control form-control-sm" name="address" id="address" required>
+        </span>
+
+        <span class="form-group col-sm-2">Nº<br>
+            <input type="text" class="form-control form-control-sm" name="addressNumber" id="addressNumber" required>
+        </span>
+
+        <span class="form-group col-sm-4">Bairro<br>
+            <input type="text" class="form-control form-control-sm" name="province" id="province" required>
+        </span>
+
+        <span class="form-group col-sm-6">Cidade<br>
+            <input type="text" class="form-control form-control-sm" name="cityandstate" id="cityandstate" required>
+        </span>
+
+        <span class="form-group col-sm-6">Ponto de Referencia</br>
+            <input type="text" class="form-control form-control-sm" name="complement" id="complement" required>
+        </span>
+    </div>
+</div>
+<div>
+    <hr>
+    <div class="m-3 form-row">
+        <label for="formFileSm" class="form-label">Anexa Documento com foto RG ou CNH</label>
+        <input class="form-control form-control-sm" id="formFileSm" type="file">
+    </div>
+
+    <div class="box-buttons text-right">
+        <hr class="mt-3">
+        <button type="button" class="btn btn-primary btn-sm" onclick="salveRegistro();">Salve</button>
+        <button type="button" class="btn btn-danger btn-sm" onclick="location.href='/';">Cancelar</button>
+    </div>
+</div>
+
+<script>
+    const upload = async (files) => {
+        const arquivo = new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(files[0]);
+
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            };
+
+            fileReader.onerror = (error) => {
+                reject(error);
+            };
+        });
+
+        return await arquivo;
+    }
+
+    const salveRegistro = async () => {
+        swal({ icon: "{{URL}}/resources/imgs/spinner.gif", button: false });
+        
+        const formFileSm = document.getElementById("formFileSm").files;
+        const imei = document.getElementById("uniqueId").value;
+
+        if (chekform("FromData") != 0)
+            return swal("* Pencha todos os Dados", { icon: "warning" });
+
+        if (formFileSm.length == 0)
+            return swal("* Obrigatorio Anexar Documento ", { icon: "warning" });
+
+        let temp = FromData("FromData");
+        temp.cpf = temp.cpf.replace(/\D/g, '');
+        temp.phone = temp.phone.replace(/\D/g, '');
+        temp.mobilePhone = temp.mobilePhone.replace(/\D/g, '');
+        temp.documentoImage = await upload(formFileSm);
+
+        axios.post(`/registro/${imei}?modo=novoCliente`, temp)
+            .then(function (res) {
+                let temp = res.data;
+
+                switch (temp.status) {
+                    case "sucesso":
+                        swal({
+                            title: "Rastreador Registrado com Sucesso",
+                            text: "Pra acessa o App seu login é seu email e senha os 6 primeiro digito do CPF",
+                            icon: "success"
+                        }).then(() => {
+                            location.href = '/';
+                        });
+                        break;
+
+                    case 'error':
+                        swal(temp.alerta, {
+                            icon: "warning"
+                        });
+                        break;
+
+                    default:
+                        swal("Algo de errado Check console log", {
+                            icon: "warning"
+                        });
+                        console.log(temp);
+                        break;
+                }
+
+            }).catch(function (error) {
+                swal("Algo de errado Check console log", {
+                    icon: "warning"
+                });
+                console.log(error);
+            });
+    }
+</script>

@@ -1,0 +1,16 @@
+{
+    "name": "joaops2305/cadastro-traccar-lojadorastreador",
+    "autoload": {
+        "psr-4": {
+            "SRC\\": "src/",
+            "Includes\\": "Includes/"
+        }
+    },
+    "authors": [
+        {
+            "name": "joaops2305",
+            "email": "joaops2305@gmail.com"
+        }
+    ],
+    "require": {}
+}

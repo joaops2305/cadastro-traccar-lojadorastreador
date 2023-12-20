@@ -1,0 +1,63 @@
+<div class="mt-3">Informações do Cliente</div>
+<hr>
+
+<div class="m-3 form-row" id="FromData">
+    <span class="form-group col-sm-6">Email Cadastrado<br>
+        <input class="form-control form-control-sm" type="text" name="email" id="email">
+    </span>
+
+    <span class="form-group col-sm-6">CPF Cadastrado<br>
+        <input class="form-control form-control-sm" type="text" name="cpf" id="cpf">
+    </span>
+
+    <div class="box-buttons text-right">
+        <hr class="mt-3">
+        <button type="button" class="btn btn-primary btn-sm" onclick="registre();">Registra</button>
+        <button type="button" class="btn btn-danger btn-sm" onclick="location.href='/';">Cancelar</button>
+    </div>
+</div>
+
+<script>
+    const registre = async () => {
+        swal({ icon: "{{URL}}/resources/imgs/spinner.gif", button: false });
+
+        let imei = document.getElementById("uniqueId").value;
+
+        let temp = FromData("FromData");
+
+        axios.post(`/registro/${imei}?modo=souCliente`, temp)
+            .then(function (res) {
+                let temp = res.data;
+
+                switch (temp.status) {
+                    case "sucesso":
+                        swal({
+                            title: "Rastreador Registrado com Sucesso",
+                            text: "Já esta viculado ao seu App só acessa é conferir",
+                            icon: "success"
+                        }).then(() => {
+                            location.href = '/';
+                        });
+                        break;
+
+                    case 'error':
+                        swal(temp.alerta, {
+                            icon: "warning"
+                        });
+                        break;
+
+                    default:
+                        swal("Algo de errado Check console log", {
+                            icon: "warning"
+                        });
+                        console.log(temp);
+                        break;
+                }
+            }).catch(function (error) {
+                swal("Algo de errado Check console log", {
+                    icon: "warning"
+                });
+                console.log(error);
+            });
+    }
+</script>

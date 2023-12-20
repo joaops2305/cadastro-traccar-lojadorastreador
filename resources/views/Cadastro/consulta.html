@@ -1,0 +1,37 @@
+<div class="m-3 form-row">
+    <span class="form-group col-sm-6">IMEI do Rastreador<br>
+        <input type="text" class="form-control form-control-sm" name="imei" id="imei" required>
+    </span>
+
+    <span class="form-group col-sm-6"><br>
+        <button type="button" class="btn btn-primary btn-sm" onclick="consulteImei();">Consulta</button>
+    </span>
+</div>
+
+<script>
+    const consulteImei = () => {
+        swal({ icon: "{{URL}}/resources/imgs/spinner.gif", button: false });
+
+        const imei = document.getElementById("imei").value;
+
+        axios.get(`/rastreador/${imei}`)
+            .then(function (res) {
+                let temp = res.data;
+
+                console.log(temp);
+
+                if (temp.length == 0 || temp[0].attributes.registro == true)
+                    return swal('Rastreador Não Encontrado', {
+                        icon: "warning"
+                    });
+
+                location.href = `/registro/${imei}`;
+                
+            }).catch(function (error) {
+                swal("Algo de errado Check console log", {
+                    icon: "warning"
+                });
+                console.log(error);
+            });
+    }
+</script>
